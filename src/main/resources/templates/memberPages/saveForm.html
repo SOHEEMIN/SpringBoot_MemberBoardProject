@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>save.html 회원가입</h2>
+<form action="/member/save" method="post" enctype="multipart/form-data">
+    이메일<br><input type="text" name="memberEmail" id="memberEmail" onblur="duplicatedCheck()"><br>
+    <div id="dup-check-result"></div>
+    비밀번호<br><input type="text" id="memberPassword" name="memberPassword" onblur="pwCheck()"><br>
+    <div id="pw-check-result"></div>
+    비밀번호<br><input type="text" id="memberPassword2" name="memberPassword2" onblur="pwConfirm()"><br>
+    <div id="pw-confirm-result"></div>
+    이름<br><input type="text" name="memberName"><br>
+    휴대번호<br><input type="text" id="memberMobile" name="memberMobile" onblur="mbCheck()"><br>
+    <div id="mb-check-result"></div>
+    프로필 사진<br><input type="file" name="memberProfile"><br>
+    <input type="submit" value="회원가입">
+</form>
+</body>
+<script th:inline="javascript">
+    const duplicatedCheck = () => {
+        const memberEmail = document.getElementById("memberEmail").value;
+        const checkResult = document.getElementById("dup-check-result")
+        $.ajax({
+            type: 'post',
+            url: '/member/dup-check',
+            data: {"memberEmail": memberEmail},
+            dataType: 'text',
+            success: function (result) {
+                if (result == "OK") {
+                    checkResult.innerHTML = "사용가능한 아이디입니다.";
+                    checkResult.style.color = "green";
+                } else {
+                    checkResult.innerHTML = "이미 사용중인 아이디입니다.";
+                    checkResult.style.color = "red";
+                }
+            }, error: function (result) {
+                alert("오류");
+            }
+        });
+    }
+    const pwCheck = () => {
+        const memberPassword = document.getElementById("memberPassword").value;
+        const checkResult = document.getElementById("pw-check-result");
+        const exp = /^(?=.*[a-z])(?=.*\d)[a-z\d]{5,10}$/;
+        if (memberPassword.match(exp)) {
+            checkResult.innerHTML = "사용가능한 비밀번호입니다."
+            checkResult.style.color = "green";
+        } else {
+            checkResult.innerHTML = "영문소문자와 숫자를 포함한 5~10글자 입력";
+            checkResult.style.color = "red";
+        }
+    }
+    const pwConfirm = () => {
+        const memberPassword2 = document.getElementById("memberPassword2").value;
+        const memberPassword = document.getElementById("memberPassword").value;
+        const checkResult = document.getElementById("pw-confirm-result");
+        if (memberPassword2 == memberPassword) {
+            checkResult.innerHTML = "비밀번호가 일치합니다.";
+            checkResult.style.color = "green";
+        } else {
+            checkResult.innerHTML = "비밀번호가 일치하지 않습니다.";
+            checkResult.style.color = "red";
+        }
+    }
+    const mbCheck = () => {
+        const checkResult = document.getElementById("mb-check-result");
+        const memberMobile = document.getElementById("memberMobile").value;
+        const exp = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+        if (memberMobile.match(exp)) {
+            checkResult.innerHTML = "사용 가능한 전화번호입니다.";
+            checkResult.style.color = "green";
+        } else {
+            checkResult.innerHTML = "전화번호 형식을 다시 확인해주세요."
+            checkResult.style.color = "red";
+        }
+    }
+</script>
+</html>

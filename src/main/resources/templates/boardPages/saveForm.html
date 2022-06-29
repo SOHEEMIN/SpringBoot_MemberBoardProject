@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글작성</title>
+</head>
+<body>
+<h2>saveForm.html</h2>
+<form action="/board/save" method="post" enctype="multipart/form-data">
+    제목<br><input type="text" id="boardTitle" name="boardTitle"><br>
+    작성자<br><input type="text" id="boardWriter" name="boardWriter" th:value="${session.loginEmail}" th:placeholder="${session.loginEmail}" readonly><br>
+    내용<br><input type="text" id="boardContents" name="boardContents"><br>
+    파일<br><input type="file"name="boardFile"><br>
+    <input type="submit" value="작성">
+</form>
+</body>
+</html>
