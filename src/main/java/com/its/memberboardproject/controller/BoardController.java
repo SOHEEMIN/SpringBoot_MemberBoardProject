@@ -24,6 +24,7 @@ public class BoardController {
     public String saveForm() {
         return "/boardPages/saveForm";
     }
+
     @PostMapping("/save")
     public String save(@ModelAttribute BoardDTO boardDTO) throws IOException {
         boardService.save(boardDTO);
@@ -37,7 +38,6 @@ public class BoardController {
         int endPage = ((startPage + PagingConst.BLOCK_LIMIT - 1) < boardList.getTotalPages()) ? startPage + PagingConst.BLOCK_LIMIT - 1 : boardList.getTotalPages();
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
-
         return "boardPages/paging";
     }
     @GetMapping("/{id}")
@@ -64,6 +64,12 @@ public class BoardController {
         System.out.println("BoardController.update");
         System.out.println("boardDTO = " + boardDTO);
         return "redirect:/board/"+boardDTO.getId();
+    }
+    @GetMapping("/search")
+    public String search(@RequestParam("q") String q, Model model){
+        List<BoardDTO> searchList = boardService.search(q);
+        model.addAttribute("boardList", searchList);
+        return "boardPages/paging";
     }
 
 }

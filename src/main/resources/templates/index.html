@@ -9,10 +9,11 @@
 </body>
 세션값 확인: <p th:text="${session['loginEmail']}"></p>
 <div th:if="${session.loginEmail== null}"><a href="/member/save">회원가입</a></div>
-<a href="/member/">회원목록</a><br>
 <div th:if="${session.loginEmail== null}"><a href="/member/loginForm">로그인</a></div>
 <div th:if="${session.loginEmail!= null}"><a href="/member/logout">로그아웃</a></div>
 <div th:if="${session.loginEmail!= null}"><a href="/board/save-form">글작성</a></div>
-<div th:if="${session.loginEmail!= null}"><a href="/board">페이징글목록</a></div>
+<div th:if="${session.loginEmail!= null}"><a href="/board">페이징 글목록</a></div>
+<div th:if="${session.loginEmail=='admin'}"><a href="/member/admin">관리자 페이지</a></div>
+
 
 </html>

@@ -25,13 +25,15 @@ public class MemberController {
     @PostMapping("/save")
     public String saveForm(@ModelAttribute MemberDTO memberDTO) throws IOException {
         memberService.save(memberDTO);
-        return "redirect:/member/";
+        return "/memberPages/login";
     }
 
     @GetMapping("/")
     public String findAll(Model model){
         List<MemberDTO> memberDTOList = memberService.findAll();
         model.addAttribute("memberList", memberDTOList);
+        System.out.println("MemberController.findAll");
+        System.out.println("memberDTOList = " + memberDTOList);
         return "/memberPages/list";
     }
     @PostMapping("/dup-check")
@@ -51,12 +53,21 @@ public class MemberController {
             session.setAttribute("id", loginResult.getId());
             return "index";
         } else {
-            return "memberPages/saveForm";
+            return "/memberPages/saveForm";
         }
     }
     @GetMapping("/logout")
     public String logout(HttpSession session){
         session.invalidate();
         return "index";
+    }
+    @GetMapping("/admin")
+    public String admin(){
+        return "/memberPages/admin";
+    }
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Long id){
+        memberService.deleteById(id);
+        return "redirect:/member/";
     }
 }

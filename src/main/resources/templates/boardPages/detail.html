@@ -18,6 +18,7 @@
         <th>첨부파일</th>
     </tr>
     <tr>
+        <input type="hidden" th:id="${}">
         <td th:text="${board.id}"></td>
         <td th:text="${board.boardTitle}"></td>
         <td th:text="${board.boardWriter}"></td>
@@ -26,19 +27,73 @@
         <td th:text="*{#temporals.format(board.createdDate, 'yy-MM-dd HH:mm')}"></td>
         <td th:text="*{#temporals.format(board.updatedDate, 'yy-MM-dd HH:mm')}"></td>
         <td><img th:src="@{|/upload/${board.boardFileName}|}" width="100" height="100" alt=""></td>
-        <td th:if="${session.loginEmail== board.boardWriter}"><input type="button" onclick="boardDelete()" value="글 삭제"></td>
-        <td th:if="${session.loginEmail== board.boardWriter}"><input type="button" onclick="boardUpdate()" value="글 수정"></td>
+        <td th:if="${session.loginEmail== board.boardWriter or session.loginEmail=='admin'}"><input type="button"
+                                                                                                    onclick="boardDelete()"
+                                                                                                    value="글 삭제"></td>
+        <td th:if="${session.loginEmail== board.boardWriter}"><input type="button" onclick="boardUpdate()" value="글 수정">
+        </td>
     </tr>
 </table>
+<div><input type="text" id="commentContents" placeholder="댓글을 입력해주세요."> <input type="button" value="댓글작성"
+                                                                               onclick="comment()"></div>
+
 </body>
 <script>
     const boardDelete = () => {
-        const id =[[${board.id}]]
-      location.href="/board/delete/"+id;
+        const id = [[${board.id}]]
+        location.href = "/board/delete/" + id;
     }
     const boardUpdate = () => {
-        const id =[[${board.id}]]
-        location.href="/board/update/"+id;
+        const id = [[${board.id}]]
+        location.href = "/board/update/" + id;
     }
+    const comment = () => {
+        const memberEmail = document.getElementById("memberEmail").value;
+        const commentContents = document.getElementById("commentContents").value;
+        const boardId = [[${board.id}]]
+        console.log(memberEmail, commentContents, boardId)
+    }
+
+    // $("#comment-write-btn").click(function () {
+    //     //댓글 작성자, 내용을 가져오고 ajax 문법을 활용하여 /comment/save 주소로 post방식으로 작성자, 내용, 글번호
+    //     //세개의 값을 보내는 코드를 작성하시오
+    //     const memberId = document.getElementById("memberId").value;
+    //     const commentContents = $("#commentContents").val();
+    //     const b_id = '${board.b_id}';
+    //     console.log(memberId, commentContents, b_id)
+    //     $.ajax({
+    //         type: "post",
+    //         url: "/comment/save",
+    //         data: {
+    //             "memberId": memberId,
+    //             "commentContents": commentContents,
+    //             "b_id": b_id
+    //         },
+    //         dataType: "json",
+    //         success: function (result) {
+    //             console.log(result);
+    //             let output = "<table class='table'>";
+    //             output += "<tr><th>no</th>";
+    //             output += "<th>작성자</th>";
+    //             output += "<th>내용</th>";
+    //             output += "<th>작성시간</th></tr>";
+    //             for (let i in result) {
+    //                 output += "<tr>";
+    //                 output += "<td>" + result[i].c_id + "</td>";
+    //                 output += "<td>" + result[i].memberId + "</td>";
+    //                 output += "<td>" + result[i].commentContents + "</td>";
+    //                 output += "<td>" + result[i].commentCreatedDate + "</td>";
+    //                 output += "</tr>";
+    //             }
+    //             output += "</table>";
+    //             document.getElementById('comment-list').innerHTML = output;
+    //             document.getElementById('memberId').value = '';
+    //             document.getElementById('commentContents').value = '';
+    //         },
+    //         error: function () {
+    //             alert("오류");
+    //         }
+    //     });
+    // });
 </script>
 </html>

@@ -7,6 +7,10 @@
 <body>
 
 <h2>회원제 게시판</h2>
+<form action="/board/search" method="get">
+    <input type="text" name="q" placeholder="검색">
+    <input type="submit" value="검색">
+</form>
 
 <table class="table table-hover">
     <thead>
@@ -38,7 +42,7 @@
     html에서 타임리프로 작성하는 주소값: /board(page=1)
 -->
 
-<div class="container">
+<div th:if="${startPage}" class="container">
     <ul class="pagination justify-content-center">
         <li class="page-item">
             <!--첫페이지 요청 링크-->

@@ -61,4 +61,24 @@ public class MemberService {
             return null;
         }
     }
+
+    public void deleteById(Long id) {
+        memberRepository.deleteById(id);
+    }
+
+    public MemberDTO findById(Long id) {
+        Optional<MemberEntity> optionalMemberEntity = memberRepository.findById(id);
+        if (optionalMemberEntity.isPresent()) {
+            return MemberDTO.toMemberDTO(optionalMemberEntity.get());
+        } else {
+            return null;
+        }
+    }
+
+    public Long saveTest(MemberDTO memberDTO) {
+        MemberEntity memberEntity = MemberEntity.toMember(memberDTO);
+        Long id = memberRepository.save(memberEntity).getId();
+        System.out.println("memberDTO = " + memberDTO);
+        return id;
+    }
 }
