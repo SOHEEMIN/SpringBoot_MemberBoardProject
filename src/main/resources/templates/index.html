@@ -13,6 +13,7 @@
 <div th:if="${session.loginEmail!= null}"><a href="/member/logout">로그아웃</a></div>
 <div th:if="${session.loginEmail!= null}"><a href="/board/save-form">글작성</a></div>
 <div th:if="${session.loginEmail!= null}"><a href="/board">페이징 글목록</a></div>
+<div th:if="${session.loginEmail!= null}"><a href="/member/update">마이페이지</a></div>
 <div th:if="${session.loginEmail=='admin'}"><a href="/member/admin">관리자 페이지</a></div>
 
 

@@ -4,25 +4,35 @@ import com.its.memberboardproject.dto.CommentDTO;
 import com.its.memberboardproject.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/comment")
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/comment")
 public class CommentController {
     private final CommentService commentService;
 
+    //댓글 저장
     @PostMapping("/save")
-    public @ResponseBody List<CommentDTO> save(@ModelAttribute CommentDTO commentDTO){
+    public String save(@ModelAttribute CommentDTO commentDTO) {
+        System.out.println("CommentController.save");
         commentService.save(commentDTO);
-        List<CommentDTO> commentDTOList = commentService.findAll(commentDTO.getBoardId());
-        return commentDTOList;
+        return "redirect:/board/" + commentDTO.getBoardId();
     }
 
+    //댓글 조회
+    @GetMapping("/")
+    public List<CommentDTO> findAll() {
+        System.out.println("CommentController.findAll");
+        return commentService.findAll();
+    }
 
+    //댓글 삭제
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Long id){
+        commentService.delete(id);
+        return "redirect:/board/";
+    }
 }

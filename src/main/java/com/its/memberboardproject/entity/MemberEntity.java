@@ -31,6 +31,10 @@ public class MemberEntity {
     @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<BoardEntity> boardEntityList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<CommentEntity> commentEntityList = new ArrayList<>();
+
+
     public static MemberEntity toMember(MemberDTO memberDTO) {
         MemberEntity memberEntity = new MemberEntity();
         memberEntity.setMemberEmail(memberDTO.getMemberEmail());
@@ -41,4 +45,14 @@ public class MemberEntity {
         return memberEntity;
     }
 
+    public static MemberEntity toUpdateEntity(MemberDTO memberDTO) {
+        MemberEntity memberEntity = new MemberEntity();
+        memberEntity.setId(memberDTO.getId());
+        memberEntity.setMemberEmail(memberDTO.getMemberEmail());
+        memberEntity.setMemberPassword(memberDTO.getMemberPassword());
+        memberEntity.setMemberName(memberDTO.getMemberName());
+        memberEntity.setMemberMobile(memberDTO.getMemberMobile());
+        memberEntity.setMemberProfileName(memberDTO.getMemberProfileName());
+        return memberEntity;
+    }
 }

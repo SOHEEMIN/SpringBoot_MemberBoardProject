@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>update.html 수정처리</h2>
+    <input type="hidden" th:value="${updateMember.id}" name="id"><br>
+    아이디(이메일)<br>
+    <input type="text" name="memberEmail" th:value="${updateMember.memberEmail}"><br>
+    비밀번호<br>
+    <input type="text" id="memberPassword" name="memberPassword"><br>
+    이름<br>
+    <input type="text" name="memberName" th:value="${updateMember.memberName}"><br>
+    핸드폰번호<br>
+    <input type="text" name="memberMobile" id="memberMobile" th:value="${updateMember.memberMobile}"><br>
+    프로필사진<br>
+    <input type="text" name="memberProfileName" th:value="${updateMember.memberProfileName}">
+    <input type="button" onclick="update()" value="수정(put)">
+</body>
+<script th:inline="javascript">
+    const update = () => {
+        const id = [[${updateMember.id}]];
+        const memberEmail = [[${updateMember.memberEmail}]];
+        const memberPassword = document.getElementById("memberPassword").value;
+        const memberName = [[${updateMember.memberName}]];
+        const memberMobile = document.getElementById("memberMobile").value;
+        const memberProfileName = [[${updateMember.memberProfileName}]];
+
+        console.log(id, memberName, memberPassword, memberName, memberMobile, memberProfileName)
+        //controller에 josn형식으로 데이터를 보낼 것임
+        const updateData = JSON.stringify({ //stringify = josn으로 변환해주는 역할
+            id: id,
+            memberEmail: memberEmail,
+            memberPassword: memberPassword,
+            memberName: memberName,
+            memberMobile: memberMobile,
+            memberProfileName:memberProfileName
+        });
+        $.ajax({
+            type:"put",
+            data: updateData,
+            url: "/member/"+id,
+            contentType: "application/json",
+            success: function () {
+                alert("수정을 성공했습니다.")
+                location.href = "/member/update";
+            },
+            error: function () {
+                alert("ajax 실패");
+            }
+        });
+    }
+</script>
+</html>

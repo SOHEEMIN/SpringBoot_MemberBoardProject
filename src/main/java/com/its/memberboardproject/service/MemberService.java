@@ -81,4 +81,9 @@ public class MemberService {
         System.out.println("memberDTO = " + memberDTO);
         return id;
     }
+    public void update(MemberDTO memberDTO) {
+        System.out.println("MemberService.update");
+        System.out.println("memberDTO = " + memberDTO);
+        memberRepository.save(MemberEntity.toUpdateEntity(memberDTO));
+    }
 }
