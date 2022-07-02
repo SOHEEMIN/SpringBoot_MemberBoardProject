@@ -22,13 +22,6 @@ public class CommentController {
         return "redirect:/board/" + commentDTO.getBoardId();
     }
 
-    //댓글 조회
-    @GetMapping("/")
-    public List<CommentDTO> findAll() {
-        System.out.println("CommentController.findAll");
-        return commentService.findAll();
-    }
-
     //댓글 삭제
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id){

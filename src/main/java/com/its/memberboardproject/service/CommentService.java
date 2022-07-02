@@ -22,11 +22,15 @@ public class CommentService {
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
 
-    public List<CommentDTO> findAll() {
-        List<CommentEntity> commentEntityList = commentRepository.findAll();
+    public List<CommentDTO> findAll(Long id) {
+        Optional<BoardEntity> optionalBoardEntity = boardRepository.findById(id);
         List<CommentDTO> commentDTOList = new ArrayList<>();
-        for (CommentEntity commentEntity : commentEntityList) {
-            commentDTOList.add(CommentDTO.toSaveDTO(commentEntity));
+        if (optionalBoardEntity.isPresent()) {
+            BoardEntity boardEntity = optionalBoardEntity.get();
+            List<CommentEntity> commentEntityList = boardEntity.getCommentEntityList();
+            for (CommentEntity commentEntity : commentEntityList) {
+                commentDTOList.add(CommentDTO.toSaveDTO(commentEntity));
+            }
         }
         return commentDTOList;
     }

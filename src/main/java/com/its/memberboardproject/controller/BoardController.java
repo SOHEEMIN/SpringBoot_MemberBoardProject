@@ -50,7 +50,7 @@ public class BoardController {
     public String findById(@PathVariable Long id, Model model) {
         BoardDTO boardDTO = boardService.findById(id);
         model.addAttribute("board", boardDTO);
-        List<CommentDTO> commentDTOList = commentService.findAll();
+        List<CommentDTO> commentDTOList = commentService.findAll(id);
         model.addAttribute("commentList", commentDTOList);
         return "boardPages/detail";
     }
